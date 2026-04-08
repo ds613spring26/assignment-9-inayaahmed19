@@ -154,7 +154,7 @@ ggplot(emma_afinn, aes(x = reorder(word, n), y = n)) +
 
 ```{r}
 # Word Cloud visualization
-emma_nrc <- emma_afinn |>
+emma_afinn <- emma_afinn |>
   arrange(desc(n))
 
 wordcloud(emma_afinn$word, emma_afinn$n,
@@ -189,6 +189,9 @@ ggplot(emma_bing, aes(x = reorder(word, n), y = n)) +
 
 ```{r}
 # Word Cloud Visualization
+emma_bing <- emma_bing |>
+  arrange(desc(n))
+
 wordcloud(emma_bing$word, emma_bing$n,
           max.words = 1000,
           colors = brewer.pal(8, "Paired"))
