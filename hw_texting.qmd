@@ -65,11 +65,11 @@ austen # As you can see in the below output, the austenr data has been now sorte
     -   Use `unnest_tokens()` to tokenize text into individual words.
 
 ```{r}
-# Filtering just for 'Emma' book:
+# Here I filtering just for the 'Emma' book for the subsequent analysis
 emma <- austen |>
   filter(book == "Emma")
 
-# Using tokenization & removing stopwords 
+# Using unnest_token & removing stopwords 
 tidy_emma <- emma |>
   unnest_tokens(word, text) |>
   anti_join(stop_words)
@@ -102,7 +102,9 @@ emma_nrc <- tidy_emma |>
   filter(n > 50)
 
 emma_nrc
+```
 
+```{r}
 # Plot Visualization
 ggplot(emma_nrc, aes(x = reorder(word, n), y = n)) +
   geom_col(fill = "steelblue") +
@@ -110,17 +112,20 @@ ggplot(emma_nrc, aes(x = reorder(word, n), y = n)) +
   labs(title = "Joy Words in Emma (NRC)",
        x = "Word", y = "Frequency")
 
-# You can see in the below plot that the most frequent "joy"-coded word in Emma is 'friend', followed by 'hope.'
+# You can see in the below plot that the most frequent "joy"-coded word in Emma is 'friend'
 ```
 
 ```{r}
 # Joy Word Cloud Visualization
+emma_nrc <- emma_nrc |>
+  arrange(desc(n))
+
 wordcloud(words = emma_nrc$word,
           freq = emma_nrc$n,
-          max.words = 100,
+          max.words = 1000,
           colors = brewer.pal(8, "Dark2"))
 
-# we see 'hope' and 'happy' as the biggest words for the joy wordcloud.
+# Same as the ggplot vis, we see 'friend' as the biggest word for the NRC joy wordcloud.
 ```
 
 ```{r}
@@ -134,7 +139,9 @@ emma_afinn <- tidy_emma |>
   filter(n > 50)
 
 emma_afinn
+```
 
+```{r}
 # Plot visualization
 ggplot(emma_afinn, aes(x = reorder(word, n), y = n)) +
   geom_col(fill = "darkgreen") +
@@ -147,10 +154,13 @@ ggplot(emma_afinn, aes(x = reorder(word, n), y = n)) +
 
 ```{r}
 # Word Cloud visualization
+emma_nrc <- emma_afinn |>
+  arrange(desc(n))
+
 wordcloud(emma_afinn$word, emma_afinn$n,
           max.words = 100,
           colors = brewer.pal(8, "Set2"))
-# Same as the ggplot vis, we see dear as the biggest word in the wordcloud for AFINN positive vocab.
+# Same as shown via the ggplot vis, we see dear as the biggest word in the wordcloud for AFINN positive vocab.
 ```
 
 ```{r}
@@ -164,7 +174,9 @@ emma_bing <- tidy_emma |>
   filter(n > 50)
 
 emma_bing
+```
 
+```{r}
 # Plot Visualization
 ggplot(emma_bing, aes(x = reorder(word, n), y = n)) +
   geom_col(fill = "purple") +
