@@ -36,7 +36,28 @@ Use the **`tidytext`** package and three different **sentiment lexicons** (`nrc`
     -   Create `linenumber` and `chapter` columns.
 
 ```{r}
+# Loading libraries:
+library(tidyverse)
+library(tidytext)
+library(janeaustenr)
+library(stringr)
+library(wordcloud)
+library(RColorBrewer)
+```
 
+```{r}
+# Grouping by book and detecting chapter boundaries:
+austen <- austen_books() |>
+  group_by(book) |>
+  mutate(
+    linenumber = row_number(),
+    chapter = cumsum(str_detect(text,
+                                regex("^chapter [divxlc]",
+                                      ignore_case = TRUE)))
+  ) |>
+  ungroup()
+
+austen # As you can see in the below output, the data has been now sorted by Austen's respective books and outlined by each chapter, delineated by the "linenumber" and "chapter" columns.
 ```
 
 1.  **Tokenization**
