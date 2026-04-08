@@ -57,14 +57,27 @@ austen <- austen_books() |>
   ) |>
   ungroup()
 
-austen # As you can see in the below output, the data has been now sorted by Austen's respective books and outlined by each chapter, delineated by the "linenumber" and "chapter" columns.
+austen # As you can see in the below output, the austenr data has been now sorted by Austen's respective books and outlined by each chapter, delineated by the "linenumber" and "chapter" columns.
 ```
 
 1.  **Tokenization**
 
     -   Use `unnest_tokens()` to tokenize text into individual words.
 
-2.  **Sentiment Analysis**
+```{r}
+# Filtering just for 'Emma' book:
+emma <- austen |>
+  filter(book == "Emma")
+
+# Using tokenization & removing stopwords 
+tidy_emma <- emma |>
+  unnest_tokens(word, text) |>
+  anti_join(stop_words)
+
+tidy_emma # This output now shows the Emma book text without superfluous stopwords such as "a," "the," etc.
+```
+
+1.  **Sentiment Analysis**
 
     -   Filter joy/positive words from **each** of the three sentiment lexicons:
 
@@ -78,7 +91,7 @@ austen # As you can see in the below output, the data has been now sorted by Aus
         -   Filter for frequently occurring words (`n > 50`).
         -   Visualize using a **bar chart** (`ggplot2`) and a **word cloud** (`wordcloud`).
 
-3.  **Push to GitHub**
+2.  **Push to GitHub**
 
     -   Push your complete rendred qmd (`.html` file) to a **GitHub repository**.
 
