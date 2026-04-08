@@ -2,6 +2,7 @@
 title: "Homework Assignment: Sentiment Analysis of Emma"
 format: html
 editor: visual
+author: Inaya Ahmed
 ---
 
 ```{r setup, include=FALSE}
@@ -34,11 +35,15 @@ Use the **`tidytext`** package and three different **sentiment lexicons** (`nrc`
     -   Group by book and detect chapter boundaries using regex.
     -   Create `linenumber` and `chapter` columns.
 
-2.  **Tokenization**
+```{r}
+
+```
+
+1.  **Tokenization**
 
     -   Use `unnest_tokens()` to tokenize text into individual words.
 
-3.  **Sentiment Analysis**
+2.  **Sentiment Analysis**
 
     -   Filter joy/positive words from **each** of the three sentiment lexicons:
 
@@ -52,7 +57,7 @@ Use the **`tidytext`** package and three different **sentiment lexicons** (`nrc`
         -   Filter for frequently occurring words (`n > 50`).
         -   Visualize using a **bar chart** (`ggplot2`) and a **word cloud** (`wordcloud`).
 
-4.  **Push to GitHub**
+3.  **Push to GitHub**
 
     -   Push your complete rendred qmd (`.html` file) to a **GitHub repository**.
 
