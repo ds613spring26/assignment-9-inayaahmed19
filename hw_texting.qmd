@@ -91,7 +91,39 @@ tidy_emma # This output now shows the Emma book text without superfluous stopwor
         -   Filter for frequently occurring words (`n > 50`).
         -   Visualize using a **bar chart** (`ggplot2`) and a **word cloud** (`wordcloud`).
 
-2.  **Push to GitHub**
+```{r}
+# NRC joy sentiment analysis and visualization:
+nrc_joy <- get_sentiments("nrc") |>
+  filter(sentiment == "joy")
+
+emma_nrc <- tidy_emma |>
+  inner_join(nrc_joy, by = "word") |>
+  count(word, sort = TRUE) |>
+  filter(n > 50)
+
+emma_nrc
+
+# Plot Visualization
+ggplot(emma_nrc, aes(x = reorder(word, n), y = n)) +
+  geom_col(fill = "steelblue") +
+  coord_flip() +
+  labs(title = "Joy Words in Emma (NRC)",
+       x = "Word", y = "Frequency")
+
+# You can see in the below plot that the most frequent "joy"-coded word in Emma is 'friend', followed by 'hope.'
+```
+
+```{r}
+# Joy Word Cloud Visualization
+wordcloud(words = emma_nrc$word,
+          freq = emma_nrc$n,
+          max.words = 100,
+          colors = brewer.pal(8, "Dark2"))
+
+# we see 'hope' and 'happy' as the biggest words for the joy wordcloud.
+```
+
+1.  **Push to GitHub**
 
     -   Push your complete rendred qmd (`.html` file) to a **GitHub repository**.
 
