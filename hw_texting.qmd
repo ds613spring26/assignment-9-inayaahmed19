@@ -127,10 +127,10 @@ wordcloud(words = emma_nrc$word,
 # AFINN positive analysis and visualization
 afinn <- get_sentiments("afinn")
 
-emma_afinn <- tidy_emma %>%
-  inner_join(afinn, by = "word") %>%
-  filter(value >= 1) %>%
-  count(word, sort = TRUE) %>%
+emma_afinn <- tidy_emma |>
+  inner_join(afinn, by = "word") |>
+  filter(value >= 1) |>
+  count(word, sort = TRUE) |>
   filter(n > 50)
 
 emma_afinn
@@ -151,6 +151,36 @@ wordcloud(emma_afinn$word, emma_afinn$n,
           max.words = 100,
           colors = brewer.pal(8, "Set2"))
 # Same as the ggplot vis, we see dear as the biggest word in the wordcloud for AFINN positive vocab.
+```
+
+```{r}
+# Bing Positive Sentiment Analysis and Visualization
+bing <- get_sentiments("bing")
+
+emma_bing <- tidy_emma |>
+  inner_join(bing, by = "word") |>
+  filter(sentiment == "positive") |>
+  count(word, sort = TRUE) |>
+  filter(n > 50)
+
+emma_bing
+
+# Plot Visualization
+ggplot(emma_bing, aes(x = reorder(word, n), y = n)) +
+  geom_col(fill = "purple") +
+  coord_flip() +
+  labs(title = "Positive Words in Emma (BING)",
+       x = "Word", y = "Frequency")
+
+# The most frequent Bing Positive-coded word in Emma is happy, closely followed by love.
+```
+
+```{r}
+# Word Cloud Visualization
+wordcloud(emma_bing$word, emma_bing$n,
+          max.words = 1000,
+          colors = brewer.pal(8, "Paired"))
+# Similarly, we see here that happy is the most prominent Bing Positive-coded word in Emma.
 ```
 
 1.  **Push to GitHub**
